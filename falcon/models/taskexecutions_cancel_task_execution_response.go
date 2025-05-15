@@ -15,26 +15,25 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// MsaAggregatesResponse msa aggregates response
+// TaskexecutionsCancelTaskExecutionResponse taskexecutions cancel task execution response
 //
-// swagger:model msa.AggregatesResponse
-type MsaAggregatesResponse struct {
+// swagger:model taskexecutions.CancelTaskExecutionResponse
+type TaskexecutionsCancelTaskExecutionResponse struct {
 
-	// errors
-	// Required: true
+	// Array of error objects if any occurred. Example: [{code: 400, message: 'Invalid request parameters'}]
 	Errors []*MsaspecError `json:"errors"`
 
-	// meta
+	// Metadata about the response. Example: {query_time: 0.002342, powered_by: 'falconforitapi', trace_id: 'f6295b7c-9911-4160-a783-7e6df2adae4e'}
 	// Required: true
 	Meta *MsaspecMetaInfo `json:"meta"`
 
-	// resources
+	// Array of resource objects returned by the API.
 	// Required: true
-	Resources []*MsaAggregationResult `json:"resources"`
+	Resources []*TaskexecutionsTaskExecution `json:"resources"`
 }
 
-// Validate validates this msa aggregates response
-func (m *MsaAggregatesResponse) Validate(formats strfmt.Registry) error {
+// Validate validates this taskexecutions cancel task execution response
+func (m *TaskexecutionsCancelTaskExecutionResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateErrors(formats); err != nil {
@@ -55,10 +54,9 @@ func (m *MsaAggregatesResponse) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *MsaAggregatesResponse) validateErrors(formats strfmt.Registry) error {
-
-	if err := validate.Required("errors", "body", m.Errors); err != nil {
-		return err
+func (m *TaskexecutionsCancelTaskExecutionResponse) validateErrors(formats strfmt.Registry) error {
+	if swag.IsZero(m.Errors) { // not required
+		return nil
 	}
 
 	for i := 0; i < len(m.Errors); i++ {
@@ -82,7 +80,7 @@ func (m *MsaAggregatesResponse) validateErrors(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *MsaAggregatesResponse) validateMeta(formats strfmt.Registry) error {
+func (m *TaskexecutionsCancelTaskExecutionResponse) validateMeta(formats strfmt.Registry) error {
 
 	if err := validate.Required("meta", "body", m.Meta); err != nil {
 		return err
@@ -102,7 +100,7 @@ func (m *MsaAggregatesResponse) validateMeta(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *MsaAggregatesResponse) validateResources(formats strfmt.Registry) error {
+func (m *TaskexecutionsCancelTaskExecutionResponse) validateResources(formats strfmt.Registry) error {
 
 	if err := validate.Required("resources", "body", m.Resources); err != nil {
 		return err
@@ -129,8 +127,8 @@ func (m *MsaAggregatesResponse) validateResources(formats strfmt.Registry) error
 	return nil
 }
 
-// ContextValidate validate this msa aggregates response based on the context it is used
-func (m *MsaAggregatesResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+// ContextValidate validate this taskexecutions cancel task execution response based on the context it is used
+func (m *TaskexecutionsCancelTaskExecutionResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.contextValidateErrors(ctx, formats); err != nil {
@@ -151,7 +149,7 @@ func (m *MsaAggregatesResponse) ContextValidate(ctx context.Context, formats str
 	return nil
 }
 
-func (m *MsaAggregatesResponse) contextValidateErrors(ctx context.Context, formats strfmt.Registry) error {
+func (m *TaskexecutionsCancelTaskExecutionResponse) contextValidateErrors(ctx context.Context, formats strfmt.Registry) error {
 
 	for i := 0; i < len(m.Errors); i++ {
 
@@ -176,7 +174,7 @@ func (m *MsaAggregatesResponse) contextValidateErrors(ctx context.Context, forma
 	return nil
 }
 
-func (m *MsaAggregatesResponse) contextValidateMeta(ctx context.Context, formats strfmt.Registry) error {
+func (m *TaskexecutionsCancelTaskExecutionResponse) contextValidateMeta(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Meta != nil {
 
@@ -193,7 +191,7 @@ func (m *MsaAggregatesResponse) contextValidateMeta(ctx context.Context, formats
 	return nil
 }
 
-func (m *MsaAggregatesResponse) contextValidateResources(ctx context.Context, formats strfmt.Registry) error {
+func (m *TaskexecutionsCancelTaskExecutionResponse) contextValidateResources(ctx context.Context, formats strfmt.Registry) error {
 
 	for i := 0; i < len(m.Resources); i++ {
 
@@ -219,7 +217,7 @@ func (m *MsaAggregatesResponse) contextValidateResources(ctx context.Context, fo
 }
 
 // MarshalBinary interface implementation
-func (m *MsaAggregatesResponse) MarshalBinary() ([]byte, error) {
+func (m *TaskexecutionsCancelTaskExecutionResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -227,8 +225,8 @@ func (m *MsaAggregatesResponse) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *MsaAggregatesResponse) UnmarshalBinary(b []byte) error {
-	var res MsaAggregatesResponse
+func (m *TaskexecutionsCancelTaskExecutionResponse) UnmarshalBinary(b []byte) error {
+	var res TaskexecutionsCancelTaskExecutionResponse
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

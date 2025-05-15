@@ -15,10 +15,10 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// MsaspecResponseFields msaspec response fields
+// FalconforitapiQuerySavedQueryResponse falconforitapi query saved query response
 //
-// swagger:model msaspec.ResponseFields
-type MsaspecResponseFields struct {
+// swagger:model falconforitapi.QuerySavedQueryResponse
+type FalconforitapiQuerySavedQueryResponse struct {
 
 	// errors
 	Errors []*MsaspecError `json:"errors"`
@@ -26,10 +26,14 @@ type MsaspecResponseFields struct {
 	// meta
 	// Required: true
 	Meta *MsaspecMetaInfo `json:"meta"`
+
+	// resources
+	// Required: true
+	Resources []string `json:"resources"`
 }
 
-// Validate validates this msaspec response fields
-func (m *MsaspecResponseFields) Validate(formats strfmt.Registry) error {
+// Validate validates this falconforitapi query saved query response
+func (m *FalconforitapiQuerySavedQueryResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateErrors(formats); err != nil {
@@ -40,13 +44,17 @@ func (m *MsaspecResponseFields) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateResources(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
 }
 
-func (m *MsaspecResponseFields) validateErrors(formats strfmt.Registry) error {
+func (m *FalconforitapiQuerySavedQueryResponse) validateErrors(formats strfmt.Registry) error {
 	if swag.IsZero(m.Errors) { // not required
 		return nil
 	}
@@ -72,7 +80,7 @@ func (m *MsaspecResponseFields) validateErrors(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *MsaspecResponseFields) validateMeta(formats strfmt.Registry) error {
+func (m *FalconforitapiQuerySavedQueryResponse) validateMeta(formats strfmt.Registry) error {
 
 	if err := validate.Required("meta", "body", m.Meta); err != nil {
 		return err
@@ -92,8 +100,17 @@ func (m *MsaspecResponseFields) validateMeta(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validate this msaspec response fields based on the context it is used
-func (m *MsaspecResponseFields) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *FalconforitapiQuerySavedQueryResponse) validateResources(formats strfmt.Registry) error {
+
+	if err := validate.Required("resources", "body", m.Resources); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this falconforitapi query saved query response based on the context it is used
+func (m *FalconforitapiQuerySavedQueryResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.contextValidateErrors(ctx, formats); err != nil {
@@ -110,7 +127,7 @@ func (m *MsaspecResponseFields) ContextValidate(ctx context.Context, formats str
 	return nil
 }
 
-func (m *MsaspecResponseFields) contextValidateErrors(ctx context.Context, formats strfmt.Registry) error {
+func (m *FalconforitapiQuerySavedQueryResponse) contextValidateErrors(ctx context.Context, formats strfmt.Registry) error {
 
 	for i := 0; i < len(m.Errors); i++ {
 
@@ -135,7 +152,7 @@ func (m *MsaspecResponseFields) contextValidateErrors(ctx context.Context, forma
 	return nil
 }
 
-func (m *MsaspecResponseFields) contextValidateMeta(ctx context.Context, formats strfmt.Registry) error {
+func (m *FalconforitapiQuerySavedQueryResponse) contextValidateMeta(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Meta != nil {
 
@@ -153,7 +170,7 @@ func (m *MsaspecResponseFields) contextValidateMeta(ctx context.Context, formats
 }
 
 // MarshalBinary interface implementation
-func (m *MsaspecResponseFields) MarshalBinary() ([]byte, error) {
+func (m *FalconforitapiQuerySavedQueryResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -161,8 +178,8 @@ func (m *MsaspecResponseFields) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *MsaspecResponseFields) UnmarshalBinary(b []byte) error {
-	var res MsaspecResponseFields
+func (m *FalconforitapiQuerySavedQueryResponse) UnmarshalBinary(b []byte) error {
+	var res FalconforitapiQuerySavedQueryResponse
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}

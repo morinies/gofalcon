@@ -15,21 +15,25 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// MsaspecResponseFields msaspec response fields
+// TasksGetTaskResponse tasks get task response
 //
-// swagger:model msaspec.ResponseFields
-type MsaspecResponseFields struct {
+// swagger:model tasks.GetTaskResponse
+type TasksGetTaskResponse struct {
 
-	// errors
+	// Array of error objects if any occurred. Example: [{code: 400, message: 'Invalid request parameters'}]
 	Errors []*MsaspecError `json:"errors"`
 
-	// meta
+	// Metadata about the response. Example: {query_time: 0.002342, powered_by: 'falconforitapi', trace_id: 'f6295b7c-9911-4160-a783-7e6df2adae4e'}
 	// Required: true
 	Meta *MsaspecMetaInfo `json:"meta"`
+
+	// Array of resource objects returned by the API.
+	// Required: true
+	Resources []*TasksTask `json:"resources"`
 }
 
-// Validate validates this msaspec response fields
-func (m *MsaspecResponseFields) Validate(formats strfmt.Registry) error {
+// Validate validates this tasks get task response
+func (m *TasksGetTaskResponse) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateErrors(formats); err != nil {
@@ -40,13 +44,17 @@ func (m *MsaspecResponseFields) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := m.validateResources(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
 }
 
-func (m *MsaspecResponseFields) validateErrors(formats strfmt.Registry) error {
+func (m *TasksGetTaskResponse) validateErrors(formats strfmt.Registry) error {
 	if swag.IsZero(m.Errors) { // not required
 		return nil
 	}
@@ -72,7 +80,7 @@ func (m *MsaspecResponseFields) validateErrors(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *MsaspecResponseFields) validateMeta(formats strfmt.Registry) error {
+func (m *TasksGetTaskResponse) validateMeta(formats strfmt.Registry) error {
 
 	if err := validate.Required("meta", "body", m.Meta); err != nil {
 		return err
@@ -92,8 +100,35 @@ func (m *MsaspecResponseFields) validateMeta(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validate this msaspec response fields based on the context it is used
-func (m *MsaspecResponseFields) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+func (m *TasksGetTaskResponse) validateResources(formats strfmt.Registry) error {
+
+	if err := validate.Required("resources", "body", m.Resources); err != nil {
+		return err
+	}
+
+	for i := 0; i < len(m.Resources); i++ {
+		if swag.IsZero(m.Resources[i]) { // not required
+			continue
+		}
+
+		if m.Resources[i] != nil {
+			if err := m.Resources[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("resources" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("resources" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this tasks get task response based on the context it is used
+func (m *TasksGetTaskResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.contextValidateErrors(ctx, formats); err != nil {
@@ -104,13 +139,17 @@ func (m *MsaspecResponseFields) ContextValidate(ctx context.Context, formats str
 		res = append(res, err)
 	}
 
+	if err := m.contextValidateResources(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
 	return nil
 }
 
-func (m *MsaspecResponseFields) contextValidateErrors(ctx context.Context, formats strfmt.Registry) error {
+func (m *TasksGetTaskResponse) contextValidateErrors(ctx context.Context, formats strfmt.Registry) error {
 
 	for i := 0; i < len(m.Errors); i++ {
 
@@ -135,7 +174,7 @@ func (m *MsaspecResponseFields) contextValidateErrors(ctx context.Context, forma
 	return nil
 }
 
-func (m *MsaspecResponseFields) contextValidateMeta(ctx context.Context, formats strfmt.Registry) error {
+func (m *TasksGetTaskResponse) contextValidateMeta(ctx context.Context, formats strfmt.Registry) error {
 
 	if m.Meta != nil {
 
@@ -152,8 +191,33 @@ func (m *MsaspecResponseFields) contextValidateMeta(ctx context.Context, formats
 	return nil
 }
 
+func (m *TasksGetTaskResponse) contextValidateResources(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Resources); i++ {
+
+		if m.Resources[i] != nil {
+
+			if swag.IsZero(m.Resources[i]) { // not required
+				return nil
+			}
+
+			if err := m.Resources[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("resources" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("resources" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
 // MarshalBinary interface implementation
-func (m *MsaspecResponseFields) MarshalBinary() ([]byte, error) {
+func (m *TasksGetTaskResponse) MarshalBinary() ([]byte, error) {
 	if m == nil {
 		return nil, nil
 	}
@@ -161,8 +225,8 @@ func (m *MsaspecResponseFields) MarshalBinary() ([]byte, error) {
 }
 
 // UnmarshalBinary interface implementation
-func (m *MsaspecResponseFields) UnmarshalBinary(b []byte) error {
-	var res MsaspecResponseFields
+func (m *TasksGetTaskResponse) UnmarshalBinary(b []byte) error {
+	var res TasksGetTaskResponse
 	if err := swag.ReadJSON(b, &res); err != nil {
 		return err
 	}
